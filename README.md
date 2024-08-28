@@ -11,7 +11,7 @@ Este script es una herramienta que permite extraer texto de archivos PDF y gener
 
 ## Instalación
 
-1. Clona este repositorio o descarga el archivo ZIP.
+1. Clona este repositorio.
 
 2. Instala las dependencias necesarias usando `pip`:
 
@@ -22,17 +22,17 @@ Este script es una herramienta que permite extraer texto de archivos PDF y gener
 3. Configura tu clave API de OpenAI. Puedes hacerlo estableciendo una variable de entorno:
 
     ```bash
-    export OPENAI_API_KEY='tu_clave_api'
+    set OPENAI_API_KEY=*tu_clave_api*
     ```
 
     O añadiendo la clave directamente en tu código (no recomendado para producción).
 
 ## Uso
 
-1. Ejecuta el script `pdf_summarizer.py`:
+1. Ejecuta el script `resumidor.pyw`:
 
     ```bash
-    python pdf_summarizer.py
+    python resumidor.pyw
     ```
 
 2. Aparecerá una ventana con una interfaz gráfica que te permitirá:
@@ -44,8 +44,8 @@ Este script es una herramienta que permite extraer texto de archivos PDF y gener
 
 ## Estructura del Proyecto
 
-- `pdf_summarizer.py`: Contiene el código principal del script.
-- `output_summaries/`: Carpeta donde se almacenan los resúmenes generados.
+- `resumidor.pyw`: Contiene el código principal del script.
+- `output_summaries/`: Carpeta donde se almacenarán los resúmenes generados.
 
 ## Contribuciones
 
