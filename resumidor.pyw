@@ -33,33 +33,34 @@ def summarize_text(text, language):
     )
     return response.choices[0].message.content
 
-# Función principal para seleccionar y procesar un archivo PDF
-def process_pdf(language):
-    pdf_path = filedialog.askopenfilename(
-        title="Seleccionar PDF",
+# Función principal para seleccionar y procesar archivos PDF
+def process_pdfs(language):
+    pdf_paths = filedialog.askopenfilenames(
+        title="Seleccionar PDFs",
         filetypes=[("PDF Files", "*.pdf")]
     )
-    if pdf_path:
+    if pdf_paths:
         try:
-            pdf_text = extract_text_from_pdf(pdf_path)
-            summary = summarize_text(pdf_text, language)
+            for pdf_path in pdf_paths:
+                pdf_text = extract_text_from_pdf(pdf_path)
+                summary = summarize_text(pdf_text, language)
+                
+                # Guardar el resumen en un archivo de texto
+                output_folder = 'output_summaries'
+                Path(output_folder).mkdir(parents=True, exist_ok=True)
+                output_path = os.path.join(output_folder, f"{Path(pdf_path).stem}_summary_{language}.txt")
+                
+                with open(output_path, 'w', encoding='utf-8') as f:
+                    f.write(summary)
             
-            # Guardar el resumen en un archivo de texto
-            output_folder = 'output_summaries'
-            Path(output_folder).mkdir(parents=True, exist_ok=True)
-            output_path = os.path.join(output_folder, f"{Path(pdf_path).stem}_summary_{language}.txt")
-            
-            with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(summary)
-            
-            messagebox.showinfo("Éxito", f"Resumen guardado en {output_path}")
+            messagebox.showinfo("Éxito", f"Resúmenes guardados en {output_folder}")
         except Exception as e:
             messagebox.showerror("Error", f"Se produjo un error: {e}")
 
 # Crear la interfaz gráfica con Tkinter
 def main():
     root = tk.Tk()
-    root.title("PDF Summarizer")
+    root.title("Resumidor")
     
     # Tamaño de la ventana ajustado
     root.geometry("400x250")
@@ -71,8 +72,8 @@ def main():
     language_dropdown = ttk.Combobox(root, textvariable=language_var, values=["español", "inglés"], state="readonly")
     language_dropdown.pack(pady=10)
     
-    # Botón para seleccionar el archivo PDF y generar el resumen
-    tk.Button(root, text="Seleccionar PDF y Resumir", command=lambda: process_pdf(language_var.get()), padx=10, pady=5).pack(pady=20)
+    # Botón para seleccionar los archivos PDF y generar los resúmenes
+    tk.Button(root, text="Seleccionar PDFs y Resumir", command=lambda: process_pdfs(language_var.get()), padx=10, pady=5).pack(pady=20)
     
     root.mainloop()
 
